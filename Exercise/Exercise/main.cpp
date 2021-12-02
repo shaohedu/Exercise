@@ -9,7 +9,7 @@
 #include <iostream>
 
 // input: incomeBeforTax per year
-double calculateTax(double incomeBeforTax) {
+double calculateTax(float incomeBeforTax) {
     double tax1 = 36000 * 0.03;
     double tax2 = (144000 - 36000) * 0.1;
     double tax3 = (300000 - 144000) * 0.2;
@@ -66,27 +66,31 @@ int main(int argc, const char *argv[]) {
         double totalSalary = salaryPerMonth * 12;
         std::cout << "your total salary is " << totalSalary << " RMB/year" << std::endl;
         double salaryAfterTax = calculateTax(totalSalary);
-        std::cout << "your salary incomeAfterTax is " << salaryAfterTax << " RMB/year" << std::endl;
+        std::cout << "your salary incomeAfterTax is " << salaryAfterTax << " RMB/year, " << "tax = " << 1 - salaryAfterTax/totalSalary << std::endl;
         double totalProfit = (currentSharePrice - exercisePrice) * num;
         std::cout << "your exercise totalProfit is " << totalProfit << " RMB" << std::endl;
         double totalIncome = totalSalary + totalProfit;
         std::cout << "your totalIncome is " << totalIncome << " RMB" << std::endl;
         double incomeAfterTax = calculateTax(totalIncome);
-        std::cout << "your incomeAfterTax is " << incomeAfterTax << " RMB" << std::endl;
+        std::cout << "your incomeAfterTax is " << incomeAfterTax << " RMB, " << "tax = " << 1 - incomeAfterTax/totalIncome << std::endl;
         double shareTaxCost = (totalIncome - incomeAfterTax) - (totalSalary - salaryAfterTax);
-        std::cout << "your shareTaxCost is " << shareTaxCost << " RMB" << std::endl;
-        double costperCDR = (shareTaxCost / shares) + exercisePrice;
+        std::cout << "your shareTaxCost is " << shareTaxCost << " RMB, " << "tax = " << shareTaxCost/totalProfit << std::endl;
+        double costperCDR = (shareTaxCost / num) + exercisePrice;
         std::cout << "your costperCDR is " << costperCDR << " RMB" << std::endl;
     };
     std::cout << ".................一次行完................." << std::endl;
     details(shares);
     
-    double recommendShares = (660000 - salaryPerMonth * 12) / (currentSharePrice - exercisePrice);
+    int recommendShares = (660000 - salaryPerMonth * 12) / (currentSharePrice - exercisePrice);
     std::cout << "recommendShares is " << recommendShares << std::endl;
     std::cout << ".................控税30%，推荐数量................." << std::endl;
     details(recommendShares);
     std::cout << ".................平均3年行完................." << std::endl;
     yearLimit(shares);
     details(shares/3);
+    std::cout << ".................平均4年行完................." << std::endl;
+    details(shares/4);
+    std::cout << ".................平均6年行完................." << std::endl;
+    details(shares/6);
     return 0;
 }
