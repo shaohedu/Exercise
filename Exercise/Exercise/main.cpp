@@ -85,7 +85,8 @@ int main(int argc, const char *argv[]) {
     std::cout << "recommendShares is " << recommendShares << std::endl;
     std::cout << ".................控税30%，推荐数量................." << std::endl;
     details(recommendShares);
+    std::cout << ".................平均3年行完................." << std::endl;
     yearLimit(shares);
-    
+    details(shares/3);
     return 0;
 }
