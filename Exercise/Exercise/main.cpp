@@ -40,7 +40,7 @@ void yearLimit(int total) {
         total = total * (1 - 0.25);
         year ++;
     }
-    std::cout << "yearLimit is " << year << " last year shares is " << total <<std::endl;
+    std::cout << "yearLimit is " << year + 1 << " last year shares is " << total <<std::endl;
 }
 
 int main(int argc, const char *argv[]) {
