@@ -50,33 +50,36 @@ int main(int argc, const char *argv[]) {
     float currentSharePrice = 0;
     float exchangeRate = 0;
 
-    std::cout << "input your salary: RMB/month" << std::endl;
+    std::cout << "薪水: RMB/月" << std::endl;
     std::cin >> salaryPerMonth;
-    std::cout << "input your number of shares: CDR" << std::endl;
+    std::cout << "期权总数: CDR" << std::endl;
     std::cin >> shares;
-    std::cout << "input your exercisePrice: USD/CDR" << std::endl;
+    std::cout << "行权价格: USD/CDR" << std::endl;
     std::cin >> exercisePrice;
-    std::cout << "input your exchangeRate: RMB/USD" << std::endl;
+    std::cout << "汇率: RMB/USD" << std::endl;
     std::cin >> exchangeRate;
-    std::cout << "input your currentSharePrice: RMB/CDR" << std::endl;
+    std::cout << "当前股票价格: RMB/CDR" << std::endl;
     std::cin >> currentSharePrice;
     exercisePrice = exercisePrice * exchangeRate;
     
+    
     auto details = [=] (int num) {
         double totalSalary = salaryPerMonth * 12;
-        std::cout << "your total salary is " << totalSalary << " RMB/year" << std::endl;
+        std::cout << "税前年薪 " << totalSalary << " RMB/年" << std::endl;
         double salaryAfterTax = calculateTax(totalSalary);
-        std::cout << "your salary incomeAfterTax is " << salaryAfterTax << " RMB/year, " << "tax = " << 1 - salaryAfterTax/totalSalary << std::endl;
+        std::cout << "税后年薪 " << salaryAfterTax << " RMB/年, " << "税额 = " << 1 - salaryAfterTax/totalSalary << std::endl;
+        double totalExercisePrice = exercisePrice * num;
+        std::cout << "行权款/年 " << totalExercisePrice << " RMB" << std::endl;
         double totalProfit = (currentSharePrice - exercisePrice) * num;
-        std::cout << "your exercise totalProfit is " << totalProfit << " RMB" << std::endl;
+        std::cout << "期权收益 " << totalProfit << " RMB" << std::endl;
         double totalIncome = totalSalary + totalProfit;
-        std::cout << "your totalIncome is " << totalIncome << " RMB" << std::endl;
+        std::cout << "税前总收入 " << totalIncome << " RMB" << std::endl;
         double incomeAfterTax = calculateTax(totalIncome);
-        std::cout << "your incomeAfterTax is " << incomeAfterTax << " RMB, " << "tax = " << 1 - incomeAfterTax/totalIncome << std::endl;
+        std::cout << "税后总收入 " << incomeAfterTax << " RMB, " << "税额 = " << 1 - incomeAfterTax/totalIncome << std::endl;
         double shareTaxCost = (totalIncome - incomeAfterTax) - (totalSalary - salaryAfterTax);
-        std::cout << "your shareTaxCost is " << shareTaxCost << " RMB, " << "tax = " << shareTaxCost/totalProfit << std::endl;
+        std::cout << "行权税/年 " << shareTaxCost << " RMB, " << "税额 = " << shareTaxCost/totalProfit << std::endl;
         double costperCDR = (shareTaxCost / num) + exercisePrice;
-        std::cout << "your costperCDR is " << costperCDR << " RMB" << std::endl;
+        std::cout << "成本/CDR " << costperCDR << " RMB" << std::endl;
     };
     std::cout << ".................一次行完................." << std::endl;
     details(shares);
@@ -85,12 +88,10 @@ int main(int argc, const char *argv[]) {
     std::cout << "recommendShares is " << recommendShares << std::endl;
     std::cout << ".................控税30%，推荐数量................." << std::endl;
     details(recommendShares);
+    std::cout << ".................平均2年行完................." << std::endl;
+     details(shares/2);
     std::cout << ".................平均3年行完................." << std::endl;
-    yearLimit(shares);
     details(shares/3);
-    std::cout << ".................平均4年行完................." << std::endl;
-    details(shares/4);
-    std::cout << ".................平均6年行完................." << std::endl;
-    details(shares/6);
+    yearLimit(shares);
     return 0;
 }
